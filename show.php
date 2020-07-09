@@ -220,7 +220,7 @@ if($showLinks == true){
         <input type="hidden" name="passwords" value="">
         <input type="hidden" name="source" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
         <input type="hidden" name="urls" value="<?php foreach($dataLinks as $dataLink){ echo $dataLink."\r\n"; } ?>">
-        <input type="submit" class="btn btn-success" name="submit" value="Add to JDownloader">
+        <input type="submit" class="btn btn-success btn-sm" name="submit" value="Add to JDownloader">
       </form>
       <small>
         <script language="javascript">
