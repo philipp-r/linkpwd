@@ -28,6 +28,17 @@ if( empty($_POST['submit']) ){
 	  </div>
 		<hr>
 
+    <div class="form-group">
+	    <div class="custom-control custom-switch">
+				<input type="checkbox" class="custom-control-input"  id="enableClicknload" name="enableClicknload" aria-describedby="enableClicknloadHelpBlock" />
+				<label class="custom-control-label" for="enableClicknload">Click'n'Load</label>
+				<small id="enableClicknloadHelpBlock" class="form-text text-muted">
+					Adds a Click'n'Load button to import the links in <a href="https://jdownloader.org/" rel="nofollow">JDownloader</a>.
+				</small>
+	    </div>
+	  </div>
+    <hr>
+
 		<div class="form-group">
 			<label for="password" class="control-label">Password</label>
 			<input type="text" class="form-control" id="password" name="password" placeholder="optional password for your link" />
@@ -233,6 +244,13 @@ else {
     $enableCaptcha = 0;
   }
 
+  // enable click'n'load
+  if($_POST['enableClicknload'] == "on"){
+    $enableClicknload = 1;
+  } else{
+    $enableClicknload = 0;
+  }
+
 
   // expire date:
   switch ($_POST['expireDate']){
@@ -262,14 +280,15 @@ else {
   // insert in MySQL database: ID, ciphertext, passwordHash, enableCaptcha, expireDate
   require "includes/bdd.php";
   $dbQuery = $db->prepare("INSERT INTO `links` (
-		`ID`, `ciphertext`, `passwordHash`, `enableCaptcha`, `expireDate`
+		`ID`, `ciphertext`, `passwordHash`, `enableCaptcha`, `enableClicknload`, `expireDate`
 	) VALUES (
-		'',   :ciphertext,  :passwordHash,  :enableCaptcha,  :expireDate
+		'',   :ciphertext,  :passwordHash,  :enableCaptcha,  :enableClicknload,  :expireDate
 	);");
   $dbExecData = array(
 	   ":ciphertext" => $ciphertext,
 	   ":passwordHash" => $passwordHash,
      ":enableCaptcha" => $enableCaptcha,
+     ":enableClicknload" => $enableClicknload,
      ":expireDate" => $expireDate
   );
 

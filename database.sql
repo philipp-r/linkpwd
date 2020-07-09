@@ -7,6 +7,7 @@ CREATE TABLE `links` (
   `ciphertext` text NOT NULL COMMENT 'encrypted links in json format',
   `passwordHash` varchar(64) DEFAULT NULL COMMENT 'sha256 hash',
   `enableCaptcha` tinyint(1) DEFAULT NULL COMMENT '1 or 0',
+  `enableClicknload` tinyint(1) DEFAULT NULL COMMENT '1 or 0',
   `expireDate` int(10) UNSIGNED DEFAULT NULL COMMENT 'timestamp'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

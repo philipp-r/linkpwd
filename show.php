@@ -34,6 +34,7 @@ $dbD = $dbQuery->fetch(PDO::FETCH_ASSOC);
 //  $dbD['ciphertext']
 //  $dbD['passwordHash']
 //  $dbD['enableCaptcha']
+//  $dbD['enableClicknload']
 //  $dbD['expireDate']
 
 if(!is_array($dbD)){
@@ -211,6 +212,30 @@ if($showLinks == true){
       echo "<a href='".$dataLink."' target='_blank'>".$dataLink."</a>";
     } // end. foreach
     echo "</code></pre>";
+
+
+    if($dbD['enableClicknload'] == 1){ ?>
+      <div>
+      <form action="http://127.0.0.1:9666/flash/add" target="hidden" method="POST">
+        <input type="hidden" name="passwords" value="">
+        <input type="hidden" name="source" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
+        <input type="hidden" name="urls" value="<?php foreach($dataLinks as $dataLink){ echo $dataLink."\r\n"; } ?>">
+        <input type="submit" class="btn btn-success" name="submit" value="Add to JDownloader">
+      </form>
+      <small>
+        <script language="javascript">
+          var jdownloader=false;
+        </script>
+        <script language="javascript" src="http://127.0.0.1:9666/jdcheck.js"></script>
+        <script language="javascript">
+          if(!jdownloader){
+            document.write("This works only if JDownloader is running!");
+          }
+        </script>
+      </small>
+      </div>
+    <?php
+    }
 
 } // end. show links
 
