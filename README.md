@@ -2,6 +2,7 @@
 
 [![GitHub release (latest)](https://img.shields.io/github/v/release/philipp-r/linkpwd)](https://github.com/philipp-r/linkpwd/releases/latest)
 [![license](https://img.shields.io/badge/license-MIT-brightgreen)](https://github.com/philipp-r/linkpwd/blob/master/LICENSE.md)
+[![demo](https://img.shields.io/badge/%20-demo-blueviolet)](https://linkpwd.3q3.de/)
 
 [![GitHub issues](https://img.shields.io/github/issues/philipp-r/linkpwd)](https://github.com/philipp-r/linkpwd/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/philipp-r/linkpwd)](https://github.com/philipp-r/linkpwd/pulls)

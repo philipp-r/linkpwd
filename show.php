@@ -15,6 +15,7 @@ if( !filter_var($_GET['id'], FILTER_VALIDATE_INT) ||
     !preg_match("/^[A-Za-z0-9]+$/", $_GET['iv']) ){
   echo '<div class="alert alert-danger">'.
     'This is an invalid link.'.
+    '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
     '</div>';
   die;
 }
@@ -38,6 +39,7 @@ $dbD = $dbQuery->fetch(PDO::FETCH_ASSOC);
 if(!is_array($dbD)){
   echo '<div class="alert alert-danger">'.
     'We found no data in our database. You may have an invalid link.'.
+    '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
     '</div>';
   die;
 }
@@ -48,6 +50,7 @@ if(!is_array($dbD)){
 if( time() > $dbD['expireDate'] ){
   echo '<div class="alert alert-danger">'.
    'This is an invalid link. It already expired.'.
+   '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
    '</div>';
   die;
 }
@@ -161,7 +164,7 @@ if( !empty($dbD['passwordHash']) || ( $dbD['enableCaptcha'] == 1 && CAPTCHA_ENAB
     }
 
     // validate password
-    $passwordSubmittedHash = hash("sha256", $_GET['key'].$_POST['password']);
+    $passwordSubmittedHash = hash("sha256", hex2bin($_GET['key']).$_POST['password']);
     if( $passwordSubmittedHash != $dbD['passwordHash'] ){
       echo '<div class="alert alert-danger">'.
 			   'The password was incorrect. '.
@@ -181,9 +184,9 @@ if( !empty($dbD['passwordHash']) || ( $dbD['enableCaptcha'] == 1 && CAPTCHA_ENAB
 // decryption
 $cipher = "aes-256-ctr";
 if (in_array($cipher, openssl_get_cipher_methods())) {
-    $plaintext = openssl_decrypt($dbD['ciphertext'], $cipher, hex2bin($_GET['key']), $options=0, hex2bin($_GET['iv']), $tag);
+    $plaintext = openssl_decrypt($dbD['ciphertext'], $cipher, hex2bin($_GET['key']), $options=0, hex2bin($_GET['iv']));
     // debug:
-     echo "<br>ciphertext: "; print_r($dbD['ciphertext']); echo "<br>key: "; print_r(hex2bin($_GET['key'])); echo "<br>iv: "; print_r(hex2bin($_GET['iv'])); echo "<br>tag: "; print_r($tag);
+    // echo "<br>ciphertext: "; print_r($dbD['ciphertext']); echo "<br>key: "; print_r(hex2bin($_GET['key'])); echo "<br>iv: "; print_r(hex2bin($_GET['iv']));
 }
 else {
   echo '<div class="alert alert-danger">'.
@@ -195,7 +198,7 @@ else {
 // build array of links:
 $dataLinks = json_decode($plaintext);
 // debug:
- echo "<br>data: "; print_r($dataLinks);
+// echo "<br>data: "; print_r($dataLinks);
 
 
 // foreach link

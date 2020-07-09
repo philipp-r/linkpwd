@@ -13,7 +13,7 @@
 	<title><?php echo WEB_NAME; ?> - protect your links</title>
 	<meta name="description" content="Protect your links with a captcha and password on <?php echo WEB_NAME; ?>." />
 
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="<?php echo DEFAULT_URL; ?>/assets/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
@@ -24,7 +24,7 @@
 
 	<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
 		<div class="container">
-			<a href="index.php" class="navbar-brand"><?php echo WEB_NAME; ?></a>
+			<a href="<?php echo DEFAULT_URL; ?>/index.php" class="navbar-brand"><?php echo WEB_NAME; ?></a>
 		</div>
 	</div>
 </header>

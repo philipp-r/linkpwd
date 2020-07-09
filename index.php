@@ -114,7 +114,7 @@ else {
 	</div>
   <?php
   // debug:
-   echo "<br>POST: "; print_r($_POST);
+  // echo "<br>POST: "; print_r($_POST);
 
 	// spam check not filled out
 	if(!empty($_POST['Name'])) {
@@ -199,16 +199,16 @@ else {
   // encryption key: alphanumeric characters of length = bytes*2 = 8*2 = 16
   $dataKey = openssl_random_pseudo_bytes(8);
   // debug:
-   echo "<br>data: "; print_r($dataLinks); echo "<br>id: "; print_r($dataId); echo "<br>key: "; print_r(bin2hex($dataKey));
+  // echo "<br>data: "; print_r($dataLinks); echo "<br>id: "; print_r($dataId); echo "<br>key: "; print_r(bin2hex($dataKey));
 
   // encryption
   $cipher = "aes-256-ctr";
 	if (in_array($cipher, openssl_get_cipher_methods())) {
 	    $ivlen = openssl_cipher_iv_length($cipher);
 	    $iv = openssl_random_pseudo_bytes($ivlen);
-	    $ciphertext = openssl_encrypt($dataLinks, $cipher, $dataKey, $options=0, $iv, $tag);
+	    $ciphertext = openssl_encrypt($dataLinks, $cipher, $dataKey, $options=0, $iv);
       // debug:
-       echo "<br>ciphertext: "; print_r($ciphertext); echo "<br>iv: "; print_r(bin2hex($iv)); echo "<br>tag: "; print_r($tag);
+      // echo "<br>ciphertext: "; print_r($ciphertext); echo "<br>iv: "; print_r(bin2hex($iv));
 	    //$original_plaintext = openssl_decrypt($ciphertext, $cipher, $dataKey, $options=0, $iv, $tag);
 	    //echo $original_plaintext."\n";
 	}
