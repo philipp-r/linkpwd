@@ -76,8 +76,8 @@ if( empty($_POST['submit']) ){
             </small>
         <?php } else{ ?>
             <span class="help-block">
-              <img id="captcha" src="assets/securimage/securimage_show.php" alt="CAPTCHA Image" />
-              <object type="application/x-shockwave-flash" data="assets/securimage/securimage_play.swf?audio_file=assets/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" width="19" height="19"> <param name="movie" value="assets/securimage/securimage_play.swf?audio_file=assets/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" /> </object>
+              <img id="captcha" src="/assets/securimage/securimage_show.php" alt="CAPTCHA Image" />
+              <object type="application/x-shockwave-flash" data="/assets/securimage/securimage_play.swf?audio_file=/assets/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" width="19" height="19"> <param name="movie" value="/assets/securimage/securimage_play.swf?audio_file=/assets/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" /> </object>
             </span>
             <input type="text" class="form-control" id="captcha_code" name="captcha_code" required />
             <small id="captcha_codeHelp" class="form-text text-muted">
@@ -220,10 +220,10 @@ else {
 	}
 
 
-  // hash password to store in database
-  // we will use sha256 hash and the $dataKey as salt
+  // password as sha256 hash stored in database
+  // the hash includes $dataKey and $iv
   if(!empty($_POST['password'])){
-    $passwordHash = hash("sha256", $dataKey.$_POST['password']);
+    $passwordHash = hash("sha256", $dataKey.$iv.$_POST['password']);
   }
 
   // enable captcha

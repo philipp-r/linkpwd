@@ -14,7 +14,7 @@ if( !filter_var($_GET['id'], FILTER_VALIDATE_INT) ||
     !preg_match("/^[A-Za-z0-9]+$/", $_GET['key']) ||
     !preg_match("/^[A-Za-z0-9]+$/", $_GET['iv']) ){
   echo '<div class="alert alert-danger">'.
-    'This is an invalid link.'.
+    'This is an invalid link. '.
     '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
     '</div>';
   die;
@@ -38,7 +38,7 @@ $dbD = $dbQuery->fetch(PDO::FETCH_ASSOC);
 
 if(!is_array($dbD)){
   echo '<div class="alert alert-danger">'.
-    'We found no data in our database. You may have an invalid link.'.
+    'We found no data in our database. You may have an invalid link. '.
     '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
     '</div>';
   die;
@@ -47,18 +47,20 @@ if(!is_array($dbD)){
 
 
 // check the expire date
-if( time() > $dbD['expireDate'] ){
+if( $dbD['expireDate'] != 0 && time() > $dbD['expireDate'] ){
   echo '<div class="alert alert-danger">'.
-   'This is an invalid link. It already expired.'.
+   'This is an invalid link. It already expired. '.
    '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
    '</div>';
   die;
 }
 
 
+$showLinks = true;
 
 // check password and captcha if a password is set or captcha is enabled
 if( !empty($dbD['passwordHash']) || ( $dbD['enableCaptcha'] == 1 && CAPTCHA_ENABLED_LINK ) ){
+  $showLinks = false;
   // show the password/captcha form
   if( empty($_POST['submit']) ){
   ?>
@@ -87,8 +89,8 @@ if( !empty($dbD['passwordHash']) || ( $dbD['enableCaptcha'] == 1 && CAPTCHA_ENAB
               </small>
           <?php } else{ ?>
               <span class="help-block">
-                <img id="captcha" src="assets/securimage/securimage_show.php" alt="CAPTCHA Image" />
-                <object type="application/x-shockwave-flash" data="assets/securimage/securimage_play.swf?audio_file=assets/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" width="19" height="19"> <param name="movie" value="assets/securimage/securimage_play.swf?audio_file=assets/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" /> </object>
+                <img id="captcha" src="/assets/securimage/securimage_show.php" alt="CAPTCHA Image" />
+                <object type="application/x-shockwave-flash" data="/assets/securimage/securimage_play.swf?audio_file=/assets/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" width="19" height="19"> <param name="movie" value="/assets/securimage/securimage_play.swf?audio_file=/assets/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" /> </object>
               </span>
               <input type="text" class="form-control" id="captcha_code" name="captcha_code" required />
               <small id="captcha_codeHelp" class="form-text text-muted">
@@ -164,15 +166,16 @@ if( !empty($dbD['passwordHash']) || ( $dbD['enableCaptcha'] == 1 && CAPTCHA_ENAB
     }
 
     // validate password
-    $passwordSubmittedHash = hash("sha256", hex2bin($_GET['key']).$_POST['password']);
+    $passwordSubmittedHash = hash("sha256", hex2bin($_GET['key']).hex2bin($_GET['iv']).$_POST['password']);
     if( $passwordSubmittedHash != $dbD['passwordHash'] ){
       echo '<div class="alert alert-danger">'.
-			   'The password was incorrect. '.
+			   'The password was incorrect or this link is invalid. '.
 			   '<a href="'.$_SERVER["REQUEST_URI"].'" class="alert-link">Reload the Form</a> and try again.'.
 			   '</div>';
 		  die;
     }
     // otherwise everything is okay
+    $showLinks = true;
 
   } // end if form was submitted
 
@@ -181,34 +184,35 @@ if( !empty($dbD['passwordHash']) || ( $dbD['enableCaptcha'] == 1 && CAPTCHA_ENAB
 
 
 
-// decryption
-$cipher = "aes-256-ctr";
-if (in_array($cipher, openssl_get_cipher_methods())) {
-    $plaintext = openssl_decrypt($dbD['ciphertext'], $cipher, hex2bin($_GET['key']), $options=0, hex2bin($_GET['iv']));
+if($showLinks == true){
+  // decryption
+  $cipher = "aes-256-ctr";
+  if (in_array($cipher, openssl_get_cipher_methods())) {
+      $plaintext = openssl_decrypt($dbD['ciphertext'], $cipher, hex2bin($_GET['key']), $options=0, hex2bin($_GET['iv']));
+      // debug:
+      // echo "<br>ciphertext: "; print_r($dbD['ciphertext']); echo "<br>key: "; print_r(hex2bin($_GET['key'])); echo "<br>iv: "; print_r(hex2bin($_GET['iv']));
+    }
+    else {
+      echo '<div class="alert alert-danger">'.
+      'Encryption mode not available.'.
+      '</div>';
+      die;
+    }
+
+    // build array of links:
+    $dataLinks = json_decode($plaintext);
     // debug:
-    // echo "<br>ciphertext: "; print_r($dbD['ciphertext']); echo "<br>key: "; print_r(hex2bin($_GET['key'])); echo "<br>iv: "; print_r(hex2bin($_GET['iv']));
-}
-else {
-  echo '<div class="alert alert-danger">'.
-    'Encryption mode not available.'.
-    '</div>';
-  die;
-}
-
-// build array of links:
-$dataLinks = json_decode($plaintext);
-// debug:
-// echo "<br>data: "; print_r($dataLinks);
+    // echo "<br>data: "; print_r($dataLinks);
 
 
-// foreach link
-echo "<pre><code>";
-foreach ($dataLinks as $dataLink) {
-  echo "<a href='".$dataLink."' target='_blank'>".$dataLink."</a><br>";
-} // end. foreach
-echo "</code></pre>";
+    // foreach link
+    echo "<pre><code>";
+    foreach ($dataLinks as $dataLink) {
+      echo "<a href='".$dataLink."' target='_blank'>".$dataLink."</a>";
+    } // end. foreach
+    echo "</code></pre>";
 
-
+} // end. show links
 
 
 // the Website Footer
