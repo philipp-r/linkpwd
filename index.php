@@ -315,7 +315,7 @@ else {
 	<div class="input-group mb-3">
 		<input class="form-control" type="text" value="<?php echo $mailURL; ?>" aria-describedby="copy-button" readonly >
 		<div class="input-group-append">
-			<script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
+      <script src="https://unpkg.com/clipboard@2.0.6/dist/clipboard.min.js" integrity="sha384-x6nRSkfSsKGBsvlLFHHNju+buS3zYUztVnTRz/0JKgOIk3ulS6bNce/vHOvYE2eY" crossorigin="anonymous"></script>
 			<script type="text/javascript"> new ClipboardJS('.btn-copy'); </script>
 	    <button class="btn btn-outline-secondary btn-copy" type="button" id="copy-button" name="copy-button" title="Copy to clipboard"
 			data-clipboard-text="<?php echo $mailURL; ?>" data-toggle="tooltip" data-trigger="click" data-placement="top" data-original-title="<?php echo _("Copied!"); ?>" >copy</button>
