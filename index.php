@@ -100,7 +100,6 @@ if( empty($_POST['submit']) ){
 
 	  <div class="form-group">
 	    <div class="col-sm-offset-2 col-sm-10">
-	      <input type="text" name="Name" id="Name" placeholder="Do not fill out this one please." style="display:none;"><!-- Spam Protection -->
 	      <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Create Link">
 	    </div>
 	  </div>
@@ -126,15 +125,6 @@ else {
   <?php
   // debug:
   // echo "<br>POST: "; print_r($_POST);
-
-	// spam check not filled out
-	if(!empty($_POST['Name'])) {
-		echo '<div class="alert alert-danger">'.
-			'Please do not fill out the "Name" field. It is only for spam protection. '.
-			'<a href="index.php" class="alert-link">Reload the Form</a> and try again.'.
-			'</div>';
-		die;
-	}
 
   // check the Captcha
   if(CAPTCHA_ENABLED_CREATE == true){

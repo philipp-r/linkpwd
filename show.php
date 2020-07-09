@@ -103,7 +103,6 @@ if( !empty($dbD['passwordHash']) || ( $dbD['enableCaptcha'] == 1 && CAPTCHA_ENAB
 
   	  <div class="form-group">
   	    <div class="col-sm-offset-2 col-sm-10">
-  	      <input type="text" name="Name" id="Name" placeholder="Do not fill out this one please." style="display:none;"><!-- Spam Protection -->
   	      <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Show me">
   	    </div>
   	  </div>
@@ -112,15 +111,6 @@ if( !empty($dbD['passwordHash']) || ( $dbD['enableCaptcha'] == 1 && CAPTCHA_ENAB
   <?php }
   // if the form was submitted
   else{
-	  // spam check not filled out
-	  if(!empty($_POST['Name'])) {
-	  	echo '<div class="alert alert-danger">'.
-	  		'Please do not fill out the "Name" field. It is only for spam protection. '.
-	  		'<a href="'.$_SERVER["REQUEST_URI"].'" class="alert-link">Reload the Form</a> and try again.'.
-	  		'</div>';
-	  	die;
-	  }
-
     // validate captcha
     $captchaCheckIs = false;
     if(CAPTCHA_SERVICE == "hcaptcha"){
