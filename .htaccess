@@ -1,0 +1,7 @@
+### Fancy links
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteBase /
+	# id is a number \d; key and iv is something like [a-zA-Z0-9] \w
+	RewriteRule ^s/(\d+)/(\w+)/(\w+)/$ show.php?id=$1&key=$2&iv=$3 [L]
+</IfModule>
