@@ -122,59 +122,63 @@ if( !empty($dbD['passwordHash']) || ( $dbD['enableCaptcha'] == 1 && CAPTCHA_ENAB
   <?php }
   // if the form was submitted
   else{
-    // validate captcha
-    $captchaCheckIs = false;
-    if(CAPTCHA_SERVICE == "hcaptcha"){
-      // hCaptcha request
-      $data = array(
-          'secret' => CAPTCHA_PRIVKEY,
-          'response' => $_POST['h-captcha-response']
-      );
-      $verify = curl_init();
-      curl_setopt($verify, CURLOPT_URL, "https://hcaptcha.com/siteverify");
-      curl_setopt($verify, CURLOPT_POST, true);
-      curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-      curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-      $response = curl_exec($verify);
-      $responseData = json_decode($response);
-      if($responseData->success) { $captchaCheckIs = true; }
-    } elseif(CAPTCHA_SERVICE == "recaptcha"){
-      // reCaptcha request
-      $data = array(
-          'secret' => CAPTCHA_PRIVKEY,
-          'response' => $_POST['h-captcha-response']
-      );
-      $verify = curl_init();
-      curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
-      curl_setopt($verify, CURLOPT_POST, true);
-      curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-      curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-      $response = curl_exec($verify);
-      $responseData = json_decode($response);
-      if($responseData->success) { $captchaCheckIs = true; }
-    } else{
-      // Securimage
-      include_once 'vendor/dapphp/securimage/securimage.php';
-    	$securimage = new Securimage();
-    	if ($securimage->check($_POST['captcha_code'])) { $captchaCheckIs = true; }
-    }
-    // incorrect Captcha:
-    if(!$captchaCheckIs){
-      echo '<div class="alert alert-danger">'.
-			   'We could not verify that you are a human. The captcha was incorrect. '.
-			   '<a href="'.$_SERVER["REQUEST_URI"].'" class="alert-link">Reload the Form</a> and try again.'.
-			   '</div>';
-		  die;
+    // validate captcha, if enabled
+    if($dbD['enableCaptcha'] == 1 && CAPTCHA_ENABLED_LINK){
+        $captchaCheckIs = false;
+        if(CAPTCHA_SERVICE == "hcaptcha"){
+          // hCaptcha request
+          $data = array(
+              'secret' => CAPTCHA_PRIVKEY,
+              'response' => $_POST['h-captcha-response']
+          );
+          $verify = curl_init();
+          curl_setopt($verify, CURLOPT_URL, "https://hcaptcha.com/siteverify");
+          curl_setopt($verify, CURLOPT_POST, true);
+          curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
+          curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+          $response = curl_exec($verify);
+          $responseData = json_decode($response);
+          if($responseData->success) { $captchaCheckIs = true; }
+        } elseif(CAPTCHA_SERVICE == "recaptcha"){
+          // reCaptcha request
+          $data = array(
+              'secret' => CAPTCHA_PRIVKEY,
+              'response' => $_POST['h-captcha-response']
+          );
+          $verify = curl_init();
+          curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+          curl_setopt($verify, CURLOPT_POST, true);
+          curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
+          curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+          $response = curl_exec($verify);
+          $responseData = json_decode($response);
+          if($responseData->success) { $captchaCheckIs = true; }
+        } else{
+          // Securimage
+          include_once 'vendor/dapphp/securimage/securimage.php';
+        	$securimage = new Securimage();
+        	if ($securimage->check($_POST['captcha_code'])) { $captchaCheckIs = true; }
+        }
+        // incorrect Captcha:
+        if(!$captchaCheckIs){
+          echo '<div class="alert alert-danger">'.
+		    	   'We could not verify that you are a human. The captcha was incorrect. '.
+		    	   '<a href="'.$_SERVER["REQUEST_URI"].'" class="alert-link">Reload the Form</a> and try again.'.
+		    	   '</div>';
+		      die;
+        }
     }
 
-    // validate password
-    $passwordSubmittedHash = hash("sha256", hex2bin($_GET['key']).hex2bin($_GET['iv']).$_POST['password']);
-    if( $passwordSubmittedHash != $dbD['passwordHash'] ){
-      echo '<div class="alert alert-danger">'.
-			   'The password was incorrect or this link is invalid. '.
-			   '<a href="'.$_SERVER["REQUEST_URI"].'" class="alert-link">Reload the Form</a> and try again.'.
-			   '</div>';
-		  die;
+    // validate password, if enabled
+    if( !empty($dbD['passwordHash']) ){
+        $passwordSubmittedHash = hash("sha256", hex2bin($_GET['key']).hex2bin($_GET['iv']).$_POST['password']);
+        if( $passwordSubmittedHash != $dbD['passwordHash'] ){
+          echo '<div class="alert alert-danger">'.
+		    	   'The password was incorrect or this link is invalid. '.
+		    	   '<a href="'.$_SERVER["REQUEST_URI"].'" class="alert-link">Reload the Form</a> and try again.'.
+		    	   '</div>';
+		      die;
+        }
     }
     // otherwise everything is okay
     $showLinks = true;
