@@ -13,7 +13,10 @@ Users can enter a bunch of links (eg download links) and will get a link to shar
 The link can be protected with a password and/or captcha and can be auto deleted after specified time.
 Data is encrypted to prevent liability for any stored links.
 
-linkpwd is a self hosted alternative to services like keeplinks.org or former share-links.biz and linkcrypt.ws.
+linkpwd is a self hosted alternative to services like keeplinks.org, filecrypt.cc or former share-links.biz, linkcrypt.ws.
+
+**Don't want to run linkpwd on your own server?** 
+See the [list of public instances](https://github.com/philipp-r/linkpwd/wiki/Instances) if you just want to use it. 
 
 ## Installation
 
