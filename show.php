@@ -65,6 +65,7 @@ require "includes/ws-header.php";
 <div class="jumbotron">
    <h1 class="display-4">Links</h1>
 </div>
+<?php echo HEADER_HTMLCODE; ?>
 <?php
 
 

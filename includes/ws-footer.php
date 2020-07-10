@@ -1,6 +1,8 @@
 </main>
 
 <footer>
+<?php echo FOOTER_HTMLCODE; ?>
+
 <hr>
 <div class="footer row">
 	<div class="col">

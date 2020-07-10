@@ -14,6 +14,7 @@ if( empty($_POST['submit']) ){
    <p class="lead">Protect your links with a captcha and password. You can also add an expiration time.</p>
 </div>
 
+<?php echo HEADER_HTMLCODE; ?>
 
 <div>
 <form method="post" action="index.php">
