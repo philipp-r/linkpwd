@@ -5,7 +5,7 @@
 <div class="footer row">
 	<div class="col">
 		<p>
-			<a href="https://github.com/philipp-r/linkpwd">linkpwd is open source</a> <small>v0.2</small>
+			<a href="https://github.com/philipp-r/linkpwd">linkpwd is open source</a> <small>v0.3</small>
 			<?php if(!empty(LEGAL_INFO_LINK)){ ?>
 		  	<br><a href="<?php echo LEGAL_INFO_LINK; ?>">legal info + data protection</a>
 			<?php }
