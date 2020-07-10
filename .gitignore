@@ -1,4 +1,4 @@
 .DS_Store
 includes/config.php
-css/custom.css
-css/custom-*.css
+assets/css/custom.css
+assets/css/custom-*.css
