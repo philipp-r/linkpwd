@@ -4,4 +4,5 @@
 	RewriteBase /
 	# id is a number \d; key and iv is something like [a-zA-Z0-9] \w
 	RewriteRule ^s/(\d+)/(\w+)/(\w+)/$ show.php?id=$1&key=$2&iv=$3 [L]
+	RewriteRule ^badge/(\d+)/(\w+)/(\w+).svg$ badge.php?id=$1&key=$2&iv=$3 [L]
 </IfModule>

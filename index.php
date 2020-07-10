@@ -296,8 +296,10 @@ else {
 	// output
   if(FANCY_LINKS){
     $mailURL = DEFAULT_URL."/s/".$pdoLastId."/".bin2hex($dataKey)."/".bin2hex($iv)."/";
+    $badgeURL = DEFAULT_URL."/badge/".$pdoLastId."/".bin2hex($dataKey)."/".bin2hex($iv).".svg";
   }else{
     $mailURL = DEFAULT_URL."/show.php?id=".$pdoLastId."&key=".bin2hex($dataKey)."&iv=".bin2hex($iv);
+    $badgeURL = DEFAULT_URL."/badge.php?id=".$pdoLastId."&key=".bin2hex($dataKey)."&iv=".bin2hex($iv);
   }
 	?>
 	<h1>Your link</h1>
@@ -312,6 +314,28 @@ else {
 	  </div>
 	</div>
 	</p>
+
+
+  <?php if(BADGES_ENABLED == true){ ?>
+  <p><a data-toggle="collapse" href="#collapseHtmlCode" aria-expanded="false" aria-controls="collapseHtmlCode">+ <?php echo _('Show me badges / icons'); ?></a></p>
+  <div class="collapse" id="collapseHtmlCode">
+    <div class="panel-heading">
+			<h3 class="panel-title"><?php echo _('Badge / icon'); ?></h3>
+		</div>
+		<div class="panel-body">
+      Image: <img src="<?php echo $badgeURL; ?>" />
+      <pre><code><?php echo $badgeURL; ?></code></pre>
+      <h5>BBCode for forums:</h5>
+      <pre><code>[url=<?php echo $mailURL; ?>][img]<?php echo $badgeURL; ?>[/img][/url]</code></pre>
+      <h5>HTML code:</h5>
+      <pre><code>&lt;a href="<?php echo $mailURL; ?>" title="<?php echo WEB_NAME; ?>"&gt;&lt;img src="<?php echo $badgeURL; ?>" /&gt;&lt;/a&gt;</code></pre>
+      <h5>Markdown:</h5>
+      <pre><code>[![<?php echo WEB_NAME; ?>](<?php echo $badgeURL; ?>)](<?php echo $mailURL; ?>)</code></pre>
+		</div>
+  </div>
+  <?php } ?>
+
+
 
 	<div class="panel panel-default">
 		<div class="panel-heading">

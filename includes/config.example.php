@@ -53,3 +53,9 @@ define('URL_SHORTENER_ENABLED', true);
 //  you can use for example "https://3q3.de/?shortenUrl="
 //  the URL to shorten will be appended (with urlencode)
 define('URL_SHORTENER_URL', "https://3q3.de/?shortenUrl=");
+
+
+// Badges
+//  enable this to use badges that indicate how many links are up/down
+//  they are available at: http://example.com/badge.php?id=3&key=abc123&iv=xyz456
+define('BADGES_ENABLED', false);

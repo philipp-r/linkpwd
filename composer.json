@@ -1,0 +1,5 @@
+{
+    "require": {
+        "badges/poser": "~1.2"
+    }
+}
