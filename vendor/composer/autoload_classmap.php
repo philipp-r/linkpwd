@@ -7,6 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'JsonException' => $vendorDir . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
+    'Securimage' => $vendorDir . '/dapphp/securimage/securimage.php',
+    'Securimage_Color' => $vendorDir . '/dapphp/securimage/securimage.php',
     'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
     'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
 );

@@ -87,8 +87,8 @@ if( empty($_POST['submit']) ){
             </small>
         <?php } else{ ?>
             <span class="help-block">
-              <img id="captcha" src="/assets/securimage/securimage_show.php" alt="CAPTCHA Image" />
-              <object type="application/x-shockwave-flash" data="/assets/securimage/securimage_play.swf?audio_file=/assets/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" width="19" height="19"> <param name="movie" value="/assets/securimage/securimage_play.swf?audio_file=/assets/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" /> </object>
+              <img id="captcha" src="<?php echo DEFAULT_URL; ?>/vendor/dapphp/securimage/securimage_show.php" alt="CAPTCHA Image" />
+              <object type="application/x-shockwave-flash" data="<?php echo DEFAULT_URL; ?>/vendor/dapphp/securimage/securimage_play.swf?audio_file=<?php echo DEFAULT_URL; ?>/vendor/dapphp/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" width="19" height="19"> <param name="movie" value="<?php echo DEFAULT_URL; ?>/vendor/dapphp/securimage/securimage_play.swf?audio_file=<?php echo DEFAULT_URL; ?>/vendor/dapphp/securimage/securimage_play.php&amp;bgColor1=%23fff&amp;bgColor2=%23fff&amp;iconColor=%23777&amp;borderWidth=1&amp;borderColor=%23000" /> </object>
             </span>
             <input type="text" class="form-control" id="captcha_code" name="captcha_code" required />
             <small id="captcha_codeHelp" class="form-text text-muted">
@@ -159,7 +159,7 @@ else {
       if($responseData->success) { $captchaCheckIs = true; }
     } else{
       // Securimage
-      include_once 'assets/securimage/securimage.php';
+      include_once 'vendor/dapphp/securimage/securimage.php';
     	$securimage = new Securimage();
     	if ($securimage->check($_POST['captcha_code'])) { $captchaCheckIs = true; }
     }

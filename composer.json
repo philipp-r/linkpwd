@@ -1,5 +1,6 @@
 {
     "require": {
-        "badges/poser": "~1.2"
+        "badges/poser": "~1.4",
+        "dapphp/securimage": "~3.6"
     }
 }

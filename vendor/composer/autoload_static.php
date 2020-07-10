@@ -61,6 +61,8 @@ class ComposerStaticInit56cc65529d414f0ff3dedd84b5bbb739
 
     public static $classMap = array (
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
+        'Securimage' => __DIR__ . '/..' . '/dapphp/securimage/securimage.php',
+        'Securimage_Color' => __DIR__ . '/..' . '/dapphp/securimage/securimage.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );
