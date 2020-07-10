@@ -2,11 +2,19 @@ User-agent: *
 
 Disallow: /assets/
 Disallow: /includes/
+Disallow: /vendor/
 
+Disallow: /.git/
 Disallow: .gitignore
+
+Disallow: composer.json
+Disallow: composer.lock
 Disallow: database.sql
 Disallow: README.md
 Disallow: LICENSE.md
+Disallow: cron.php
 
 Disallow: show.php
 Disallow: /s/
+Disallow: badge.php
+Disallow: /badge/
