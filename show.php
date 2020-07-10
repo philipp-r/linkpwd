@@ -1,18 +1,14 @@
 <?php
 require "includes/config.php";
-// the Website Header
-require "includes/ws-header.php";
-?>
 
-<div class="jumbotron">
-   <h1 class="display-4">Links</h1>
-</div>
 
-<?php
+
 // user passes $_GET['id'], $_GET['key'], $_GET['iv']
 if( !filter_var($_GET['id'], FILTER_VALIDATE_INT) ||
     !preg_match("/^[A-Za-z0-9]+$/", $_GET['key']) ||
     !preg_match("/^[A-Za-z0-9]+$/", $_GET['iv']) ){
+  header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+  require "includes/ws-header.php";
   echo '<div class="alert alert-danger">'.
     'This is an invalid link. '.
     '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
@@ -38,6 +34,8 @@ $dbD = $dbQuery->fetch(PDO::FETCH_ASSOC);
 //  $dbD['expireDate']
 
 if(!is_array($dbD)){
+  header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+  require "includes/ws-header.php";
   echo '<div class="alert alert-danger">'.
     'We found no data in our database. You may have an invalid link. '.
     '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
@@ -49,12 +47,25 @@ if(!is_array($dbD)){
 
 // check the expire date
 if( $dbD['expireDate'] != 0 && time() > $dbD['expireDate'] ){
+  header($_SERVER["SERVER_PROTOCOL"]." 410 Gone");
+  require "includes/ws-header.php";
   echo '<div class="alert alert-danger">'.
    'This is an invalid link. It already expired. '.
    '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
    '</div>';
   die;
 }
+
+
+
+
+// the Website Header
+require "includes/ws-header.php";
+?>
+<div class="jumbotron">
+   <h1 class="display-4">Links</h1>
+</div>
+<?php
 
 
 $showLinks = true;
