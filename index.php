@@ -317,7 +317,7 @@ else {
 
 
   <?php if(BADGES_ENABLED == true){ ?>
-  <p><a data-toggle="collapse" href="#collapseHtmlCode" aria-expanded="false" aria-controls="collapseHtmlCode">+ <?php echo _('Show me badges / icons'); ?></a></p>
+  <p><a data-toggle="collapse" class="collapseLink" href="#collapseHtmlCode" aria-expanded="false" aria-controls="collapseHtmlCode">+ <?php echo _('Show me badges / icons'); ?></a></p>
   <div class="collapse" id="collapseHtmlCode">
     <div class="panel-heading">
 			<h3 class="panel-title"><?php echo _('Badge / icon'); ?></h3>
