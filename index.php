@@ -106,13 +106,7 @@ if( empty($_POST['submit']) ){
 
 </form>
 </div>
-
-<script>
-$('textarea').on("input", function(){
-  var currentLength = $(this).val().length;
-	document.getElementById("charCounter").innerHTML = currentLength;
-});
-</script>
+<script src="<?php echo DEFAULT_URL; ?>/assets/js/charcounter.js"></script>
 
 
 <?php
