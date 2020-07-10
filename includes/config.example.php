@@ -7,6 +7,7 @@ define('MYSQL_HOST', 'localhost');
 define('MYSQL_DATABASE', 'url');
 define('MYSQL_USER', 'url');
 define('MYSQL_PASSWORD', '******');
+define('MYSQL_TABLEPREFIX', '');
 
 
 // the URL of your website:

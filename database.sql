@@ -2,6 +2,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+-- ADD YOUR MYSQL_TABLEPREFIX IF YOU WANT TO USE THIS 
 CREATE TABLE `links` (
   `ID` int(11) NOT NULL,
   `ciphertext` text NOT NULL COMMENT 'encrypted links in json format',

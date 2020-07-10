@@ -269,7 +269,7 @@ else {
 
   // insert in MySQL database: ID, ciphertext, passwordHash, enableCaptcha, expireDate
   require "includes/bdd.php";
-  $dbQuery = $db->prepare("INSERT INTO `links` (
+  $dbQuery = $db->prepare("INSERT INTO `".MYSQL_TABLEPREFIX."links` (
 		`ID`, `ciphertext`, `passwordHash`, `enableCaptcha`, `enableClicknload`, `expireDate`
 	) VALUES (
 		'',   :ciphertext,  :passwordHash,  :enableCaptcha,  :enableClicknload,  :expireDate

@@ -53,7 +53,7 @@ if( !filter_var($_GET['id'], FILTER_VALIDATE_INT) ||
 
 // get data from MySQL database
 require "includes/bdd.php";
-$dbQuery = $db->prepare("SELECT * FROM `links` WHERE `ID` = :ID");
+$dbQuery = $db->prepare("SELECT * FROM `".MYSQL_TABLEPREFIX."links` WHERE `ID` = :ID");
 $dbExecData = array(
 	":ID" => $_GET['id']
 );
