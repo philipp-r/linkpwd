@@ -93,8 +93,10 @@ $validLinkCount = 0;
 $totalLinkCount = count($dataLinks);
 // foreach link
 foreach ($dataLinks as $dataLink) {
+  // remove whitespace
+  $dataLink = preg_replace('/\s+/', '', $dataLink);
   // check for valid link
-  if( filter_var($inputLink, FILTER_VALIDATE_URL) ){
+  if( filter_var($dataLink, FILTER_VALIDATE_URL) ){
     // check HTTP status
     $curlGetHeaders = curl_getheaders($dataLink);
     if(strpos($curlGetHeaders[0], '200') !== false){

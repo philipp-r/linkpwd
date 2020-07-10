@@ -210,6 +210,9 @@ if($showLinks == true){
     // foreach link
     echo "<pre><code>";
     foreach ($dataLinks as $dataLink) {
+      // remove whitespace
+      $dataLink = preg_replace('/\s+/', '', $dataLink);
+      // echo 
       echo "<a href='".$dataLink."' target='_blank'>".$dataLink."</a>";
     } // end. foreach
     echo "</code></pre>";
