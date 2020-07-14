@@ -60,7 +60,7 @@ if( empty($_POST['submit']) ){
 		<div class="form-group">
 			<label for="expireDate" class="control-label">Link expires</label>
 			<select class="custom-select" name="expireDate" id="expireDate">
-				<option value="never">never</option>
+        <?php if(NEVER_EXPIRE_LINK == true){ ?><option value="never">never</option><?php } ?>
 				<option value="1day">in 1 day</option>
 				<option value="1week">in 1 week</option>
         <option value="2week">in 2 weeks</option>

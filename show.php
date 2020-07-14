@@ -46,7 +46,9 @@ if(!is_array($dbD)){
 
 
 // check the expire date
-if( $dbD['expireDate'] != 0 && time() > $dbD['expireDate'] ){
+if(   ( NEVER_EXPIRE_LINK == true && $dbD['expireDate'] != 0 && time() > $dbD['expireDate'] ) ||
+      ( NEVER_EXPIRE_LINK == false && $dbD['expireDate'] == 0 )   ||
+      ( NEVER_EXPIRE_LINK == false && time() > $dbD['expireDate'] )  ){
   header($_SERVER["SERVER_PROTOCOL"]." 410 Gone");
   require "includes/ws-header.php";
   echo '<div class="alert alert-danger">'.

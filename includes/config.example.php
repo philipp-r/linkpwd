@@ -20,6 +20,11 @@ define('DEFAULT_URL', 'http://example.com');
 define('FANCY_LINKS', true);
 // the name of your website that is displayed in the header:
 define('WEB_NAME', 'linkpwd');
+// enable the option to never expire links
+//   if you set this to false all links will be kept no longer than one year
+define('NEVER_EXPIRE_LINK', true);
+
+
 // link to your legal notice and privacy policy
 //  if available enter your link here or set this to false to disable the link
 //  it will add a link named "legal info + data protection" in the footer
@@ -65,6 +70,7 @@ define('BADGES_ENABLED', false);
 // header/footer
 //  you can enter some HTML code that will be displayed in the header/footer area of the website
 //  you can use this for example for your Google analytics code
+//  header is placed below the page title
 define('HEADER_HTMLCODE', '');
+//  footer is before the links at the bottom
 define('FOOTER_HTMLCODE', '');
-
