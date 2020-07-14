@@ -216,7 +216,7 @@ if($showLinks == true){
     echo "<pre><code>";
     foreach ($dataLinks as $dataLink) {
       // remove whitespace
-      $dataLink = preg_replace('/\s+/', '', $dataLink);
+      $dataLink = htmlspecialchars(preg_replace('/\s+/', '', $dataLink));
       // echo
       echo "<a href='".$dataLink."' target='_blank'>".$dataLink."</a><br>";
     } // end. foreach
@@ -228,7 +228,7 @@ if($showLinks == true){
       <form action="http://127.0.0.1:9666/flash/add" target="hidden" method="POST">
         <input type="hidden" name="passwords" value="">
         <input type="hidden" name="source" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
-        <input type="hidden" name="urls" value="<?php foreach($dataLinks as $dataLink){ echo $dataLink."\r\n"; } ?>">
+        <input type="hidden" name="urls" value="<?php foreach($dataLinks as $dataLink){ $dataLink = htmlspecialchars(preg_replace('/\s+/', '', $dataLink)); echo $dataLink."\r\n"; } ?>">
         <input type="submit" class="btn btn-success btn-sm" name="submit" value="Add to JDownloader">
       </form>
       <small>
