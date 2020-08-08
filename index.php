@@ -120,9 +120,7 @@ if( empty($_POST['submit']) ){
 }
 else {
   ?>
-  <div class="jumbotron">
-	   <h1 class="display-4">Your protected links</h1>
-	</div>
+	<h1 class="display-4">Your protected links</h1>
   <?php
   // debug:
   // echo "<br>POST: "; print_r($_POST);

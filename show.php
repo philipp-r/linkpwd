@@ -64,9 +64,7 @@ if(   ( NEVER_EXPIRE_LINK == true && $dbD['expireDate'] != 0 && time() > $dbD['e
 // the Website Header
 require "includes/ws-header.php";
 ?>
-<div class="jumbotron">
-   <h1 class="display-4">Links</h1>
-</div>
+<h1 class="display-4">Protected links</h1>
 <?php echo HEADER_HTMLCODE; ?>
 <?php
 
