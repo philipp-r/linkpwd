@@ -13,9 +13,9 @@
 	<title><?php echo WEB_NAME; ?> - protect your links</title>
 	<meta name="description" content="Protect your links with a captcha and password on <?php echo WEB_NAME; ?>." />
 
-	<link rel="stylesheet" href="<?php echo DEFAULT_URL; ?>/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="<?php echo DEFAULT_URL; ?>/assets/css/bootstrap.css">
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
 </head>
 <body>
