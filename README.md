@@ -35,6 +35,10 @@ See the [list of public instances](https://github.com/philipp-r/linkpwd/wiki/Ins
 5. Call `upgrade.php` file in your webbrowser (if this file is available)
 6. You can delete the `upgrade.php` file now
 
+## Themes
+
+linkpwd uses a [Bootstrap](https://getbootstrap.com/) css theme. You can get other styles for example from [Bootswatch](https://bootswatch.com/) and replace the `/assets/css/bootstrap.min.css` file. 
+
 ## Donations
 
 You can support this project with a donation via
@@ -45,7 +49,6 @@ Ether: 0xe34864adf79aa63D34dceae9FF98438B46D0c815
 
 ## License
 
-See `LICENSE.md` file
-
+See `LICENSE.md` file.
 linkpwd is developed by [philipp-r](https://github.com/philipp-r/linkpwd).
-Securimage is copyrighted (c) 2018 by [Drew Phillips](https://github.com/dapphp/securimage) under BSD 2-Clause "Simplified" License.
+For licenses of the software that is used see `/vendor` directory. 
