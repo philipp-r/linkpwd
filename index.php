@@ -9,10 +9,8 @@ require "includes/ws-header.php";
 if( empty($_POST['submit']) ){
 ?>
 
-<div class="jumbotron">
-   <h1 class="display-4">Protect your links</h1>
-   <p class="lead">Protect your links with a captcha and password. You can also add an expiration time.</p>
-</div>
+<h1 class="display-4">Protect your links</h1>
+<p class="lead">Protect your links with a captcha and password. You can also add an expiration time. <?php echo WEB_NAME; ?> is a link protector service.</p>
 
 <?php echo HEADER_HTMLCODE; ?>
 
@@ -20,7 +18,7 @@ if( empty($_POST['submit']) ){
 <form method="post" action="index.php">
 
 		<div class="form-group">
-			<label for="enctext" class="control-label">Links</label>
+			<label for="enctext" class="control-label h4">Links:</label>
 	  	<textarea class="form-control" id="enctext" name="enctext" aria-describedby="textareaHelpBlock" rows="5" maxlength="5000" required></textarea>
 			<small id="textareaHelpBlock" class="form-text text-muted">
 				Enter one valid link per line. No other seperators.
@@ -40,10 +38,31 @@ if( empty($_POST['submit']) ){
 	  </div>
     <hr>
 
-		<div class="form-group">
-			<label for="password" class="control-label">Password</label>
-			<input type="text" class="form-control" id="password" name="password" placeholder="optional password for your link" />
-	  </div>
+    <div class="row">
+		  <div class="form-group col-6">
+		  	<label for="password" class="control-label">Password</label>
+		  	<input type="text" class="form-control" id="password" name="password" aria-describedby="passwordHelpBlock" />
+				<small id="passwordHelpBlock" class="form-text text-muted">
+					Optional password for your link.
+				</small>
+	    </div>
+		  <div class="form-group col-6">
+		  	<label for="expireDate" class="control-label">Link expires</label>
+		  	<select class="custom-select" name="expireDate" id="expireDate" aria-describedby="expireDateHelpBlock">
+          <?php if(NEVER_EXPIRE_LINK == true){ ?><option value="never">never</option><?php } ?>
+		  		<option value="1day">in 1 day</option>
+		  		<option value="1week">in 1 week</option>
+          <option value="2week">in 2 weeks</option>
+		  		<option selected value="1month">in 1 month</option>
+		  		<option value="6month">in 6 months</option>
+		  		<option value="1year">in 1 year</option>
+		  	</select>
+				<small id="expireDateHelpBlock" class="form-text text-muted">
+					The link will be deleted after this time.
+				</small>
+	    </div>
+    </div><!-- /row -->
+
 
     <?php if(CAPTCHA_ENABLED_LINK == true){ ?>
     <div class="form-group">
@@ -56,19 +75,6 @@ if( empty($_POST['submit']) ){
 	    </div>
 	  </div>
     <?php } ?>
-
-		<div class="form-group">
-			<label for="expireDate" class="control-label">Link expires</label>
-			<select class="custom-select" name="expireDate" id="expireDate">
-        <?php if(NEVER_EXPIRE_LINK == true){ ?><option value="never">never</option><?php } ?>
-				<option value="1day">in 1 day</option>
-				<option value="1week">in 1 week</option>
-        <option value="2week">in 2 weeks</option>
-				<option selected value="1month">in 1 month</option>
-				<option value="6month">in 6 months</option>
-				<option value="1year">in 1 year</option>
-			</select>
-	  </div>
 
 		<hr>
 

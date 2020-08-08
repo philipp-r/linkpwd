@@ -21,12 +21,9 @@
 <body>
 
 <header>
-
-	<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-		<div class="container">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a href="<?php echo DEFAULT_URL; ?>/index.php" class="navbar-brand"><?php echo WEB_NAME; ?></a>
-		</div>
-	</div>
+	</nav>
 </header>
 
 
