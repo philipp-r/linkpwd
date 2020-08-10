@@ -131,58 +131,40 @@ if( !empty($dbD['passwordHash']) || ( $dbD['enableCaptcha'] == 1 && CAPTCHA_ENAB
 
 if($showLinks == true){
   // decryption
-  $cipher = "aes-256-ctr";
-  if (in_array($cipher, openssl_get_cipher_methods())) {
-      $plaintext = openssl_decrypt($dbD['ciphertext'], $cipher, hex2bin($_GET['key']), $options=0, hex2bin($_GET['iv']));
-      // debug:
-      // echo "<br>ciphertext: "; print_r($dbD['ciphertext']); echo "<br>key: "; print_r(hex2bin($_GET['key'])); echo "<br>iv: "; print_r(hex2bin($_GET['iv']));
-    }
-    else {
-      echo '<div class="alert alert-danger">'.
-      'Encryption mode not available.'.
-      '</div>';
-      die;
-    }
-
-    // build array of links:
-    $dataLinks = json_decode($plaintext);
-    // debug:
-    // echo "<br>data: "; print_r($dataLinks);
+  $dataLinks = decryptLinks($dbD['ciphertext'], $_GET['key'], $_GET['iv']);
+  // foreach link
+  echo "<pre><code>";
+  foreach ($dataLinks as $dataLink) {
+    // remove whitespace
+    $dataLink = htmlspecialchars(preg_replace('/\s+/', '', $dataLink));
+    // echo
+    echo "<a href='".$dataLink."' target='_blank'>".$dataLink."</a><br>";
+  } // end. foreach
+  echo "</code></pre>";
 
 
-    // foreach link
-    echo "<pre><code>";
-    foreach ($dataLinks as $dataLink) {
-      // remove whitespace
-      $dataLink = htmlspecialchars(preg_replace('/\s+/', '', $dataLink));
-      // echo
-      echo "<a href='".$dataLink."' target='_blank'>".$dataLink."</a><br>";
-    } // end. foreach
-    echo "</code></pre>";
-
-
-    if($dbD['enableClicknload'] == 1){ ?>
-      <div>
-      <form action="http://127.0.0.1:9666/flash/add" target="hidden" method="POST">
-        <input type="hidden" name="passwords" value="">
-        <input type="hidden" name="source" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
-        <input type="hidden" name="urls" value="<?php foreach($dataLinks as $dataLink){ $dataLink = htmlspecialchars(preg_replace('/\s+/', '', $dataLink)); echo $dataLink."\r\n"; } ?>">
-        <input type="submit" class="btn btn-success btn-sm" name="submit" value="Add to JDownloader">
-      </form>
-      <small>
-        <script language="javascript">
-          var jdownloader=false;
-        </script>
-        <script language="javascript" src="http://127.0.0.1:9666/jdcheck.js"></script>
-        <script language="javascript">
-          if(!jdownloader){
-            document.write("This works only if JDownloader is running!");
-          }
-        </script>
-      </small>
-      </div>
-    <?php
-    }
+  if($dbD['enableClicknload'] == 1){ ?>
+    <div>
+    <form action="http://127.0.0.1:9666/flash/add" target="hidden" method="POST">
+      <input type="hidden" name="passwords" value="">
+      <input type="hidden" name="source" value="<?php echo $_SERVER["REQUEST_URI"]; ?>">
+      <input type="hidden" name="urls" value="<?php foreach($dataLinks as $dataLink){ $dataLink = htmlspecialchars(preg_replace('/\s+/', '', $dataLink)); echo $dataLink."\r\n"; } ?>">
+      <input type="submit" class="btn btn-success btn-sm" name="submit" value="Add to JDownloader">
+    </form>
+    <small>
+      <script language="javascript">
+        var jdownloader=false;
+      </script>
+      <script language="javascript" src="http://127.0.0.1:9666/jdcheck.js"></script>
+      <script language="javascript">
+        if(!jdownloader){
+          document.write("This works only if JDownloader is running!");
+        }
+      </script>
+    </small>
+    </div>
+  <?php
+  }
 
 } // end. show links
 

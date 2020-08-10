@@ -63,6 +63,63 @@ function getLinkData( $linkId ){
 
 
 
+// Function: encryptLinks
+// return: array ( array, string )
+function encryptLinks( $linksArray ){
+
+  // build the data to store in the database:
+  $dataLinks = json_encode($linksArray);
+  // encryption key: alphanumeric characters of length = bytes*2 = 8*2 = 16
+  $dataKey = openssl_random_pseudo_bytes(8);
+  // echo "<br>data: "; print_r($dataLinks); echo "<br>id: "; print_r($dataId); echo "<br>key: "; print_r(bin2hex($dataKey));
+
+  // encryption
+  $cipher = "aes-256-ctr";
+	if (in_array($cipher, openssl_get_cipher_methods())) {
+	    $ivlen = openssl_cipher_iv_length($cipher);
+	    $iv = openssl_random_pseudo_bytes($ivlen);
+	    $ciphertext = openssl_encrypt($dataLinks, $cipher, $dataKey, $options=0, $iv);
+      // echo "<br>ciphertext: "; print_r($ciphertext); echo "<br>iv: "; print_r(bin2hex($iv));
+	    // $original_plaintext = openssl_decrypt($ciphertext, $cipher, $dataKey, $options=0, $iv, $tag);
+	    // echo $original_plaintext."\n";
+	}
+	else {
+		print 'Encryption mode not available.';
+		die;
+	}
+
+  return array( $ciphertext, $dataKey, $iv );
+
+} // end Function: encryptLinks
+
+
+
+// Function: decryptLinks
+// return: array ( )
+function decryptLinks( $ciphertext, $linkKey, $linkIv ){
+
+  $cipher = "aes-256-ctr";
+  if (in_array($cipher, openssl_get_cipher_methods())) {
+    $plaintext = openssl_decrypt($ciphertext, $cipher, hex2bin($linkKey), $options=0, hex2bin($linkIv));
+    // echo "<br>ciphertext: "; print_r($dbD['ciphertext']); echo "<br>key: "; print_r(hex2bin($_GET['key'])); echo "<br>iv: "; print_r(hex2bin($_GET['iv']));
+  }
+  else {
+	  print 'Encryption mode not available.';
+  	die;
+  }
+
+  // build array of links:
+  $dataLinks = json_decode($plaintext);
+  // echo "<br>data: "; print_r($dataLinks);
+  return $dataLinks;
+
+} // end Function: decryptLinks
+
+
+
+
+
+
 // Function: checkReCaptcha
 // return:
 function checkReCaptcha( $captchaServiceUrl, $captchaPrivatekey, $captchaResponse ){
