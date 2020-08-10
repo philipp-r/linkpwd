@@ -1,5 +1,7 @@
 <?php
-require "includes/config.php";
+require_once "includes/config.php";
+require_once "includes/linkpwd.class.php";
+
 header('Content-Type: image/svg+xml');
 header('Cache-Control: public, max-age=345600');
 
@@ -30,8 +32,6 @@ if(!BADGES_ENABLED){
 }
 
 
-// curl get headers function
-require_once "includes/curl_getheaders.php";
 
 // BADGES
 require 'vendor/autoload.php';
@@ -52,7 +52,7 @@ if( !filter_var($_GET['id'], FILTER_VALIDATE_INT) ||
 
 
 // get data from MySQL database
-require "includes/bdd.php";
+require_once "includes/bdd.php";
 $dbQuery = $db->prepare("SELECT * FROM `".MYSQL_TABLEPREFIX."links` WHERE `ID` = :ID");
 $dbExecData = array(
 	":ID" => $_GET['id']
@@ -113,8 +113,6 @@ if($totalLinkCount == 0 || $validLinkCount < $totalLinkCount){
 }else{
   $badgeColor = "brightgreen";
 }
-
-
 
 // output image
 echo $poser->generate(WEB_NAME, $validLinkCount.'/'.$totalLinkCount.' online', $badgeColor, 'plastic'); die;
