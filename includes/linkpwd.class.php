@@ -45,7 +45,7 @@ function validateLink( $linkId, $linkKey, $linkIv ){
 //         boolean is false if no data was found
 //         array contains data: ['ciphertext', 'passwordHash', 'enableCaptcha', 'enableClicknload', 'expireDate']
 function getLinkData( $linkId ){
-  require_once "bdd.php";
+  require "bdd.php";
   $dbQuery = $db->prepare("SELECT * FROM `".MYSQL_TABLEPREFIX."links` WHERE `ID` = :ID");
   $dbExecData = array( ":ID" => $linkId );
   $dbQuery->execute($dbExecData);

@@ -1,7 +1,6 @@
 <?php
 require_once "includes/config.php";
-require "includes/linkpwd.class.php";
-$linkpwd = new linkpwd();
+require_once "includes/linkpwd.class.php";
 
 
 
@@ -16,6 +15,7 @@ if( $isValidLink[0] == false ){
 
 // get data from database
 $dbD = getLinkData($_GET['id']);
+
 
 // the Website Header
 require "includes/ws-header.php";
