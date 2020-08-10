@@ -1,65 +1,21 @@
 <?php
-require "includes/config.php";
+require_once "includes/config.php";
+require "includes/linkpwd.class.php";
+$linkpwd = new linkpwd();
 
 
 
-// user passes $_GET['id'], $_GET['key'], $_GET['iv']
-if( !filter_var($_GET['id'], FILTER_VALIDATE_INT) ||
-    !preg_match("/^[A-Za-z0-9]+$/", $_GET['key']) ||
-    !preg_match("/^[A-Za-z0-9]+$/", $_GET['iv']) ){
-  header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+// validate the link
+$isValidLink = validateLink($_GET['id'], $_GET['key'], $_GET['iv']);
+if( $isValidLink[0] == false ){
   require "includes/ws-header.php";
-  echo '<div class="alert alert-danger">'.
-    'This is an invalid link. '.
-    '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
-    '</div>';
+  echo '<div class="alert alert-danger">'.$isValidLink[1].' <a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.</div>';
   die;
 }
 
 
-
-// get data from MySQL database
-require "includes/bdd.php";
-$dbQuery = $db->prepare("SELECT * FROM `".MYSQL_TABLEPREFIX."links` WHERE `ID` = :ID");
-$dbExecData = array(
-	":ID" => $_GET['id']
-);
-$dbQuery->execute($dbExecData);
-$dbD = $dbQuery->fetch(PDO::FETCH_ASSOC);
-// The db data we get:
-//  $dbD['ciphertext']
-//  $dbD['passwordHash']
-//  $dbD['enableCaptcha']
-//  $dbD['enableClicknload']
-//  $dbD['expireDate']
-
-if(!is_array($dbD)){
-  header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-  require "includes/ws-header.php";
-  echo '<div class="alert alert-danger">'.
-    'We found no data in our database. You may have an invalid link. '.
-    '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
-    '</div>';
-  die;
-}
-
-
-
-// check the expire date
-if(   ( NEVER_EXPIRE_LINK == true && $dbD['expireDate'] != 0 && time() > $dbD['expireDate'] ) ||
-      ( NEVER_EXPIRE_LINK == false && $dbD['expireDate'] == 0 )   ||
-      ( NEVER_EXPIRE_LINK == false && time() > $dbD['expireDate'] )  ){
-  header($_SERVER["SERVER_PROTOCOL"]." 410 Gone");
-  require "includes/ws-header.php";
-  echo '<div class="alert alert-danger">'.
-   'This is an invalid link. It already expired. '.
-   '<a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.'.
-   '</div>';
-  die;
-}
-
-
-
+// get data from database
+$dbD = getLinkData($_GET['id']);
 
 // the Website Header
 require "includes/ws-header.php";
@@ -127,33 +83,15 @@ if( !empty($dbD['passwordHash']) || ( $dbD['enableCaptcha'] == 1 && CAPTCHA_ENAB
     if($dbD['enableCaptcha'] == 1 && CAPTCHA_ENABLED_LINK){
         $captchaCheckIs = false;
         if(CAPTCHA_SERVICE == "hcaptcha"){
-          // hCaptcha request
-          $data = array(
-              'secret' => CAPTCHA_PRIVKEY,
-              'response' => $_POST['h-captcha-response']
-          );
-          $verify = curl_init();
-          curl_setopt($verify, CURLOPT_URL, "https://hcaptcha.com/siteverify");
-          curl_setopt($verify, CURLOPT_POST, true);
-          curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-          curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-          $response = curl_exec($verify);
-          $responseData = json_decode($response);
-          if($responseData->success) { $captchaCheckIs = true; }
+          $responseData = checkReCaptcha("https://hcaptcha.com/siteverify", CAPTCHA_PRIVKEY, $_POST['h-captcha-response']);
+          if($responseData->success) {
+            $captchaCheckIs = true;
+          }
         } elseif(CAPTCHA_SERVICE == "recaptcha"){
-          // reCaptcha request
-          $data = array(
-              'secret' => CAPTCHA_PRIVKEY,
-              'response' => $_POST['h-captcha-response']
-          );
-          $verify = curl_init();
-          curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
-          curl_setopt($verify, CURLOPT_POST, true);
-          curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-          curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-          $response = curl_exec($verify);
-          $responseData = json_decode($response);
-          if($responseData->success) { $captchaCheckIs = true; }
+          $responseData = checkReCaptcha("https://www.google.com/recaptcha/api/siteverify", CAPTCHA_PRIVKEY, $_POST['g-recaptcha-response']);
+          if($responseData->success) {
+            $captchaCheckIs = true;
+          }
         } else{
           // Securimage
           include_once 'vendor/dapphp/securimage/securimage.php';

@@ -1,11 +1,13 @@
 <?php
-require "includes/config.php";
+require_once "includes/config.php";
+require_once "includes/linkpwd.class.php";
+
 // the Website Header
 require "includes/ws-header.php";
-?>
 
 
-<?php
+
+
 if( empty($_POST['submit']) ){
 ?>
 
@@ -129,33 +131,15 @@ else {
   if(CAPTCHA_ENABLED_CREATE == true){
     $captchaCheckIs = false;
     if(CAPTCHA_SERVICE == "hcaptcha"){
-      // hCaptcha request
-      $data = array(
-          'secret' => CAPTCHA_PRIVKEY,
-          'response' => $_POST['h-captcha-response']
-      );
-      $verify = curl_init();
-      curl_setopt($verify, CURLOPT_URL, "https://hcaptcha.com/siteverify");
-      curl_setopt($verify, CURLOPT_POST, true);
-      curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-      curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-      $response = curl_exec($verify);
-      $responseData = json_decode($response);
-      if($responseData->success) { $captchaCheckIs = true; }
+      $responseData = checkReCaptcha("https://hcaptcha.com/siteverify", CAPTCHA_PRIVKEY, $_POST['h-captcha-response']);
+      if($responseData->success) {
+        $captchaCheckIs = true;
+      }
     } elseif(CAPTCHA_SERVICE == "recaptcha"){
-      // reCaptcha request
-      $data = array(
-          'secret' => CAPTCHA_PRIVKEY,
-          'response' => $_POST['h-captcha-response']
-      );
-      $verify = curl_init();
-      curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
-      curl_setopt($verify, CURLOPT_POST, true);
-      curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-      curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-      $response = curl_exec($verify);
-      $responseData = json_decode($response);
-      if($responseData->success) { $captchaCheckIs = true; }
+      $responseData = checkReCaptcha("https://www.google.com/recaptcha/api/siteverify", CAPTCHA_PRIVKEY, $_POST['g-recaptcha-response']);
+      if($responseData->success) {
+        $captchaCheckIs = true;
+      }
     } else{
       // Securimage
       include_once 'vendor/dapphp/securimage/securimage.php';
