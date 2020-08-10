@@ -7,6 +7,7 @@ require_once "includes/linkpwd.class.php";
 // validate the link
 $isValidLink = validateLink($_GET['id'], $_GET['key'], $_GET['iv']);
 if( $isValidLink[0] == false ){
+  header($_SERVER["SERVER_PROTOCOL"].' 404 Not Found');
   require "includes/ws-header.php";
   echo '<div class="alert alert-danger">'.$isValidLink[1].' <a href="'.DEFAULT_URL.'" class="alert-link">Go to the homepage</a>.</div>';
   die;
