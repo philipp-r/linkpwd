@@ -4,6 +4,7 @@ require_once "includes/linkpwd.class.php";
 
 header('Content-Type: image/svg+xml');
 header('Cache-Control: public, max-age=345600');
+header($_SERVER["SERVER_PROTOCOL"].' 200 OK');
 
 
 // disable badges
@@ -43,50 +44,20 @@ $poser = new Poser(array($render));
 
 
 
-// user passes $_GET['id'], $_GET['key'], $_GET['iv']
-if( !filter_var($_GET['id'], FILTER_VALIDATE_INT) ||
-    !preg_match("/^[A-Za-z0-9]+$/", $_GET['key']) ||
-    !preg_match("/^[A-Za-z0-9]+$/", $_GET['iv']) ){
-  echo $poser->generate('error', 'invalid link', 'lightgray', 'plastic'); die;
-}
-
-
-// get data from MySQL database
-require "includes/bdd.php";
-$dbQuery = $db->prepare("SELECT * FROM `".MYSQL_TABLEPREFIX."links` WHERE `ID` = :ID");
-$dbExecData = array(
-	":ID" => $_GET['id']
-);
-$dbQuery->execute($dbExecData);
-$dbD = $dbQuery->fetch(PDO::FETCH_ASSOC);
-// The db data we get:
-//  $dbD['ciphertext']
-//  $dbD['expireDate']
-
-if(!is_array($dbD)){
-  echo $poser->generate('error', 'invalid link', 'lightgray', 'plastic'); die;
+// validate the link
+$isValidLink = validateLink($_GET['id'], $_GET['key'], $_GET['iv']);
+if( $isValidLink[0] == false ){
+  echo $poser->generate('error', 'invalid link', 'lightgray', 'plastic');
+  die;
 }
 
 
 
-// check the expire date
-if( $dbD['expireDate'] != 0 && time() > $dbD['expireDate'] ){
-  echo $poser->generate('error', 'expired link', 'lightgray', 'plastic'); die;
-}
-
-
+// get data from database
+$dbD = getLinkData($_GET['id']);
 
 // decryption
-$cipher = "aes-256-ctr";
-if (in_array($cipher, openssl_get_cipher_methods())) {
-  $plaintext = openssl_decrypt($dbD['ciphertext'], $cipher, hex2bin($_GET['key']), $options=0, hex2bin($_GET['iv']));
-}
-else {
-  echo $poser->generate('error', 'decryption failed', 'lightgray', 'plastic'); die;
-}
-
-// build array of links:
-$dataLinks = json_decode($plaintext);
+$dataLinks = decryptLinks($dbD['ciphertext'], $_GET['key'], $_GET['iv']);
 
 
 $validLinkCount = 0;

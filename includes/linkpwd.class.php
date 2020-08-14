@@ -1,11 +1,4 @@
 <?php
-class linkpwd {
-
-
-}
-
-
-
 // Function: validateLink
 // return: array ( boolean, string )
 //         boolean is false if link is invalid;
