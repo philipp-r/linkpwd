@@ -18,8 +18,8 @@ if( API_ENABLED == false ){
 
 
 // API key
-if( $_POST['username'] == "username" || $_POST['password'] == "password" ||
-  API_KEYS[$_POST['username']] != API_KEYS[$_POST['password']] ){
+if( $_POST['apiuser'] == "username" || $_POST['apipass'] == "password" ||
+  API_KEYS[$_POST['apiuser']] != $_POST['apipass'] ){
   header($_SERVER["SERVER_PROTOCOL"].' 401 Unauthorized');
   $returnValues = array(
     "status" => 401,

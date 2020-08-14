@@ -15,8 +15,10 @@ Data is encrypted to prevent liability for any stored links.
 
 linkpwd is a self hosted alternative to services like keeplinks.org, filecrypt.cc or former share-links.biz, linkcrypt.ws.
 
-**Don't want to run linkpwd on your own server?** 
-See the [list of public instances](https://github.com/philipp-r/linkpwd/wiki/Instances) if you just want to use it. 
+**Don't want to run linkpwd on your own server?**
+See the [list of public instances](https://github.com/philipp-r/linkpwd/wiki/Instances) if you just want to use it.
+
+
 
 ## Installation
 
@@ -35,9 +37,59 @@ See the [list of public instances](https://github.com/philipp-r/linkpwd/wiki/Ins
 5. Call `upgrade.php` file in your webbrowser (if this file is available)
 6. You can delete the `upgrade.php` file now
 
+
+
 ## Themes
 
-linkpwd uses a [Bootstrap](https://getbootstrap.com/) css theme. You can get other styles for example from [Bootswatch](https://bootswatch.com/) and replace the `/assets/css/bootstrap.min.css` file. 
+linkpwd uses a [Bootstrap](https://getbootstrap.com/) css theme. You can get other styles for example from [Bootswatch](https://bootswatch.com/) and replace the `/assets/css/bootstrap.min.css` file.
+
+
+
+## API
+
+In `includes/config.php` set API_ENABLED to true and add an username and password to the API_KEYS array.
+
+### api-create.php
+
+
+### api-show.php
+
+#### Request
+
+Send a HTTP request to /api-show.php to retrieve links.
+
+GET parameters:
+ * `id`
+ * `key`
+ * `iv`
+ * `password` = password for the link
+
+required POST parameters:
+ * `apiuser` = API username
+ * `apipass` = API password
+
+#### Response
+
+The response is in JSON format:
+
+```
+{
+  "status":404,
+  "errormsg":"This is an invalid link."
+}
+```
+
+It will give you a status code that is the same as the HTTP status code:
+ * `401` = the API username or password was invalid
+ * `403` = the password for the link was invalid
+ * `404` = either id/key/iv parameters are malformatted or there is no data for this id in the database
+ * `423` = the API is disabled in configuration
+ * `200` = success
+
+And the JSON has an error message to describe the problem.
+
+
+
 
 ## Donations
 
@@ -46,9 +98,3 @@ You can support this project with a donation via
 Bitcoin: 16QMB6NXN677i3nHcD7vJPf1YkVod1ej9c
 
 Ether: 0xe34864adf79aa63D34dceae9FF98438B46D0c815
-
-## License
-
-See `LICENSE.md` file.
-linkpwd is developed by [philipp-r](https://github.com/philipp-r/linkpwd).
-For licenses of the software that is used see `/vendor` directory. 
