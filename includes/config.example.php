@@ -67,6 +67,16 @@ define('URL_SHORTENER_URL', "https://3q3.de/?shortenUrl=");
 define('BADGES_ENABLED', false);
 
 
+// API
+//  enable the API to post links and retrieve links
+define('API_ENABLED', false);
+// API keys
+//  set an array of usernames and passwords to use the API
+define('API_KEYS', array(
+  "username": "password"
+));
+
+
 // header/footer
 //  you can enter some HTML code that will be displayed in the header/footer area of the website
 //  you can use this for example for your Google analytics code
