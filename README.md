@@ -95,6 +95,8 @@ And the JSON has an error message to describe the problem.
 
 You can support this project with a donation via
 
-Bitcoin: 16QMB6NXN677i3nHcD7vJPf1YkVod1ej9c
+Bitcoin: bc1q9v0a4fms7welvvq4ff05wfggja0p2gxl2vnhqw
 
-Ether: 0xe34864adf79aa63D34dceae9FF98438B46D0c815
+Ethereum: 0x3c1690c0021E4998ab6A3918e0F80De952719411
+
+Dogecoin: DMb5d7RYdrp8n2if67CCFuUwkhsTUuJqVP
