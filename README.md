@@ -99,4 +99,4 @@ Bitcoin: bc1qfx72jn66uxmrelc9kp92406mxrhsvmyaupyz6j
 
 Bitcoin Cash: bitcoincash:qz7txcd367f45tdrwuxcspqu3w9505nnnchayrdcck
 
-Ether: 0xe34864adf79aa63D34dceae9FF98438B46D0c815
+Ethereum: 0x3c1690c0021E4998ab6A3918e0F80De952719411
