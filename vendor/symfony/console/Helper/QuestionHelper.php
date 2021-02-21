@@ -105,12 +105,12 @@ class QuestionHelper extends Helper
     {
         $this->writePrompt($output, $question);
 
-        $inputStream = $this->inputStream ?: STDIN;
+        $inputStream = $this->inputStream ?: \STDIN;
         $autocomplete = $question->getAutocompleterCallback();
 
         if (\function_exists('sapi_windows_cp_set')) {
             // Codepage used by cmd.exe on Windows to allow special characters (éàüñ).
-            sapi_windows_cp_set(1252);
+            @sapi_windows_cp_set(1252);
         }
 
         if (null === $autocomplete || !self::$stty || !Terminal::hasSttyAvailable()) {
@@ -170,13 +170,13 @@ class QuestionHelper extends Helper
             $choices = $question->getChoices();
 
             if (!$question->isMultiselect()) {
-                return isset($choices[$default]) ? $choices[$default] : $default;
+                return $choices[$default] ?? $default;
             }
 
             $default = explode(',', $default);
             foreach ($default as $k => $v) {
                 $v = $question->isTrimmable() ? trim($v) : $v;
-                $default[$k] = isset($choices[$v]) ? $choices[$v] : $v;
+                $default[$k] = $choices[$v] ?? $v;
             }
         }
 

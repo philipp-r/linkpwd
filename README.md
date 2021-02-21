@@ -35,7 +35,7 @@ See the [list of public instances](https://github.com/philipp-r/linkpwd/wiki/Ins
 3. Remove all files from your webserver and upload the new files
 4. Upload your old `includes/config.php` file
 5. Call `upgrade.php` file in your webbrowser (if this file is available)
-6. You can delete the `upgrade.php` file now
+6. You can delete the `upgrade.php` file now (if this file was available)
 
 
 
@@ -95,6 +95,8 @@ And the JSON has an error message to describe the problem.
 
 You can support this project with a donation via
 
-Bitcoin: 16QMB6NXN677i3nHcD7vJPf1YkVod1ej9c
+Bitcoin: bc1qfx72jn66uxmrelc9kp92406mxrhsvmyaupyz6j
+
+Bitcoin Cash: bitcoincash:qz7txcd367f45tdrwuxcspqu3w9505nnnchayrdcck
 
 Ether: 0xe34864adf79aa63D34dceae9FF98438B46D0c815
